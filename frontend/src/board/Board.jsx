@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
 import Toasts from '../toasts/Toasts';
 import TaskModal from '../taskModal/TaskModal';
-import TaskCard from '../taskCard/TaskCard';
+import BoardColumns from './boardColumns/BoardColumns';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
@@ -133,36 +133,12 @@ export default function Board({ username, onLogout }) {
           </button>
         </div>
 
-        <div className="board-columns">
-          {COLUMNS.map(col => {
-            const colTasks = tasks.filter(t => t.status === col.key);
-            return (
-              <div key={col.key} className="column" data-status={col.key}>
-                <div className="column-header">
-                  <span className="col-label">
-                    <span className={`col-dot ${col.dotClass}`} />
-                    {col.label}
-                  </span>
-                  <span className="col-count">{colTasks.length}</span>
-                </div>
-                <div className="column-body">
-                  {colTasks.length === 0
-                    ? <div className="empty-col"><span>○</span>No tasks yet</div>
-                    : colTasks.map(task => (
-                        <TaskCard
-                          key={task.id}
-                          task={task}
-                          flash={flashIds.has(task.id)}
-                          onEdit={t => setModal({ task: t, defaultStatus: t.status })}
-                          onDelete={deleteTask}
-                        />
-                      ))
-                  }
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <BoardColumns
+            tasks={tasks}
+            flashIds={flashIds}
+            onEdit={t => setModal({ task: t, defaultStatus: t.status })}
+            onDelete={deleteTask}
+        />
       </div>
 
       {modal && (
