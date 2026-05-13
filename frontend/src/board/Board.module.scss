@@ -12,10 +12,19 @@
   font-size: .68rem; font-weight: 600;
   letter-spacing: .04em; text-transform: uppercase;
   padding: .2rem .55rem; border-radius: 4px;
+  &.todo{ 
+    background: #e8e4da; 
+    color: #6b6156; 
+  }
+  &.inprogress{ 
+    background: #fef3cd; 
+    color: #8a6a10; 
+  }
+  &.done      { 
+    background: #dff0e6; 
+    color: #2e6b47; 
+  }
 }
-.status-chip.todo      { background: #e8e4da; color: #6b6156; }
-.status-chip.inprogress{ background: #fef3cd; color: #8a6a10; }
-.status-chip.done      { background: #dff0e6; color: #2e6b47; }
 
 /* ── Empty column ── */
 @media (max-width: 768px) {
