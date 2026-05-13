@@ -1,5 +1,5 @@
 import TaskCard from '../../../taskCard/TaskCard';
-import './ColumnBody.scss';
+import './ColumnBody.module.scss';
 
 export default function ColumnBody({ tasks, flashIds, onEdit, onDelete }) {
   return (
