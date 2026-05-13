@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Button from '../Button';
+import Button from '../button/Button';
 import styles from './TaskModal.module.scss';
 
 export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
