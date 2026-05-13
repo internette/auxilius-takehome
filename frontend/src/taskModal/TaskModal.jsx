@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import Button from '../button/Button';
+import Input from '../input/Input';
+import Select from '../select/Select';
+import Textarea from '../textarea/Textarea';
 import styles from './TaskModal.module.scss';
 
 export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
@@ -24,21 +27,21 @@ export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
 
         <div className={styles.field}>
           <label className={styles.label}>Title *</label>
-          <input className={styles.input} autoFocus value={title} onChange={e => setTitle(e.target.value)} placeholder="What needs to be done?" maxLength={120} />
+          <Input autoFocus value={title} onChange={e => setTitle(e.target.value)} placeholder="What needs to be done?" maxLength={120} />
         </div>
 
         <div className={styles.field}>
           <label className={styles.label}>Description</label>
-          <textarea className={`${styles.input} ${styles.textarea}`} value={desc} onChange={e => setDesc(e.target.value)} placeholder="Optional details…" maxLength={600} />
+          <Textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Optional details…" maxLength={600} />
         </div>
 
         <div className={styles.field}>
           <label className={styles.label}>Status</label>
-          <select className={styles.input} value={status} onChange={e => setStatus(e.target.value)}>
+          <Select value={status} onChange={e => setStatus(e.target.value)}>
             <option value="todo">To Do</option>
             <option value="inprogress">In Progress</option>
             <option value="done">Done</option>
-          </select>
+          </Select>
         </div>
 
         <div className={styles.actions}>
