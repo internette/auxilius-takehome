@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import Button from '../button/Button';
-import Input from '../input/Input';
-import Select from '../select/Select';
-import Textarea from '../textarea/Textarea';
+import Field from '../field/Field';
 import styles from './TaskModal.module.scss';
 
 export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
@@ -25,24 +23,15 @@ export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
       <div className={styles.modal}>
         <h2 className={styles.title}>{isNew ? <><em className={styles.titleEm}>New</em> Task</> : <>Edit <em className={styles.titleEm}>Task</em></>}</h2>
 
-        <div className={styles.field}>
-          <label className={styles.label}>Title *</label>
-          <Input autoFocus value={title} onChange={e => setTitle(e.target.value)} placeholder="What needs to be done?" maxLength={120} />
-        </div>
+        <Field label="Title *" inputType="input" autoFocus value={title} onChange={e => setTitle(e.target.value)} placeholder="What needs to be done?" maxLength={120} />
 
-        <div className={styles.field}>
-          <label className={styles.label}>Description</label>
-          <Textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Optional details…" maxLength={600} />
-        </div>
+        <Field label="Description" inputType="textarea" value={desc} onChange={e => setDesc(e.target.value)} placeholder="Optional details…" maxLength={600} />
 
-        <div className={styles.field}>
-          <label className={styles.label}>Status</label>
-          <Select value={status} onChange={e => setStatus(e.target.value)}>
-            <option value="todo">To Do</option>
-            <option value="inprogress">In Progress</option>
-            <option value="done">Done</option>
-          </Select>
-        </div>
+        <Field label="Status" inputType="select" value={status} onChange={e => setStatus(e.target.value)} options={[
+          { value: 'todo', label: 'To Do' },
+          { value: 'inprogress', label: 'In Progress' },
+          { value: 'done', label: 'Done' }
+        ]} />
 
         <div className={styles.actions}>
           <Button
