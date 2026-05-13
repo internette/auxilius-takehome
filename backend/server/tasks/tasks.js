@@ -1,16 +1,10 @@
 import express from 'express';
+import getTasks from './getTasks.js';
 
 export default function registerTaskRoutes(app, pool, io) {
   const router = express.Router();
 
-  router.get('/', async (_req, res) => {
-    try {
-      const { rows } = await pool.query('SELECT * FROM tasks ORDER BY created_at ASC');
-      res.json(rows);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
+  router.get('/', (req, res) => getTasks(req, res, pool));
 
   router.post('/', async (req, res) => {
     const { title, description = '', status = 'todo', author } = req.body;
