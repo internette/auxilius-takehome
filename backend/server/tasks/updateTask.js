@@ -1,4 +1,4 @@
-export default async function addTask(req, res, pool, io) {
+export default async function updateTask(req, res, pool, io) {
   const { id } = req.params;
     const { title, description, status } = req.body;
 
