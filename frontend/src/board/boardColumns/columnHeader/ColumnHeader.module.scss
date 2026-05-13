@@ -1,0 +1,45 @@
+.columnHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .9rem 1.1rem;
+  border-bottom: 1px solid var(--mist);
+  flex-shrink: 0;
+}
+
+.colLabel {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.colDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.todo {
+  background: #aaa;
+}
+
+.inprogress {
+  background: var(--gold);
+}
+
+.done {
+  background: var(--sage);
+}
+
+.colCount {
+  font-family: var(--mono);
+  font-size: .75rem;
+  background: rgba(26,18,8,.08);
+  padding: .2rem .5rem;
+  border-radius: 4px;
+}

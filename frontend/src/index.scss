@@ -197,32 +197,9 @@ header {
   min-height: 0;
 }
 
-.column-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: .9rem 1.1rem;
-  border-bottom: 1px solid var(--mist);
-  flex-shrink: 0;
-}
-
 .column[data-status="todo"] { background: var(--col-todo); }
 .column[data-status="inprogress"] { background: var(--col-inprogress); }
 .column[data-status="done"] { background: var(--col-done); }
-
-.col-label {
-  display: flex; align-items: center; gap: .5rem;
-  font-size: .75rem; font-weight: 600;
-  letter-spacing: .06em; text-transform: uppercase;
-}
-.col-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.col-dot.todo      { background: #aaa; }
-.col-dot.inprogress{ background: var(--gold); }
-.col-dot.done      { background: var(--sage); }
-
-.col-count {
-  font-family: var(--mono); font-size: .75rem;
-  background: rgba(26,18,8,.08);
-  padding: .2rem .5rem; border-radius: 4px;
-}
 
 .column-body {
   flex: 1; overflow-y: auto;
