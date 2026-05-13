@@ -14,7 +14,7 @@
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
 .modal {
-  background: #fff;
+  background: var(--white);
   border-radius: 12px;
   width: 100%;
   max-width: 480px;

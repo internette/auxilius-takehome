@@ -1,5 +1,5 @@
 .taskCard {
-  background: #fff;
+  background: var(--white);
   border: 1px solid var(--mist);
   border-radius: var(--radius);
   padding: .9rem 1rem;
@@ -17,7 +17,7 @@
   animation: cardFlash .6s ease;
 }
 @keyframes cardIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
-@keyframes cardFlash { 0%,100%{background:#fff} 40%{background:#fffbe6} }
+@keyframes cardFlash { 0%,100%{background:var(--white)} 40%{background:#fffbe6} }
 
 .taskTitle {
   font-size: .9rem;
@@ -60,7 +60,7 @@
   justify-content: center;
   border: 1px solid var(--mist);
   border-radius: 4px;
-  background: #fff;
+  background: var(--white);
   cursor: pointer;
   font-size: .75rem;
   transition: all var(--transition);
