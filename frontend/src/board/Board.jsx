@@ -5,6 +5,7 @@ import TaskModal from '../taskModal/TaskModal';
 import Header from './header/Header';
 import BoardToolbar from './boardToolbar/BoardToolbar';
 import BoardColumns from './boardColumns/BoardColumns';
+import './board.scss';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
