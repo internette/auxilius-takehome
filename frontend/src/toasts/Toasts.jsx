@@ -1,3 +1,5 @@
+import './Toasts.scss';
+
 export default function Toasts({ toasts }) {
   return (
     <div className="toast-container">
