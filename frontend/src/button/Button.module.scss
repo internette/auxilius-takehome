@@ -36,3 +36,12 @@
     color: var(--rust);
   }
 }
+
+.danger {
+  background: #fef2f0;
+  color: var(--rust);
+  border: 1.5px solid #f2a19f;
+  &:hover {
+    background: #ffe3dc;
+  }
+}

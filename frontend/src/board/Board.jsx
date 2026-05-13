@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
 import Toasts from '../toasts/Toasts';
 import TaskModal from '../taskModal/TaskModal';
+import DeleteConfirmModal from '../confirm/DeleteConfirmModal';
 import Header from './header/Header';
 import BoardToolbar from './boardToolbar/BoardToolbar';
 import BoardColumns from './boardColumns/BoardColumns';
@@ -20,6 +21,7 @@ let toastId = 0;
 export default function Board({ username, onLogout }) {
   const [tasks, setTasks]       = useState([]);
   const [modal, setModal]       = useState(null); // null | { task, defaultStatus }
+  const [deleteConfirm, setDeleteConfirm] = useState(null); // null | { id, title }
   const [connected, setConnected] = useState(false);
   const [toasts, setToasts]     = useState([]);
   const [flashIds, setFlashIds] = useState(new Set());
@@ -114,6 +116,20 @@ export default function Board({ username, onLogout }) {
     addToast(`Deleted "${task?.title}"`, 'delete');
   };
 
+  const requestDeleteTask = id => {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    setDeleteConfirm({ id, title: task.title });
+  };
+
+  const cancelDeleteTask = () => setDeleteConfirm(null);
+
+  const confirmDeleteTask = async () => {
+    if (!deleteConfirm?.id) return;
+    await deleteTask(deleteConfirm.id);
+    setDeleteConfirm(null);
+  };
+
   const handleSave = async ({ title, description, status }) => {
     if (modal.task) {
       await updateTask(modal.task.id, { title, description, status });
@@ -137,7 +153,7 @@ export default function Board({ username, onLogout }) {
             tasks={tasks}
             flashIds={flashIds}
             onEdit={t => setModal({ task: t, defaultStatus: t.status })}
-            onDelete={deleteTask}
+            onDelete={requestDeleteTask}
             onMove={moveTask}
         />
       </div>
@@ -148,6 +164,14 @@ export default function Board({ username, onLogout }) {
           defaultStatus={modal.defaultStatus}
           onClose={() => setModal(null)}
           onSave={handleSave}
+        />
+      )}
+
+      {deleteConfirm && (
+        <DeleteConfirmModal
+          title={deleteConfirm.title}
+          onCancel={cancelDeleteTask}
+          onConfirm={confirmDeleteTask}
         />
       )}
 
