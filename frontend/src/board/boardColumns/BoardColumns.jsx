@@ -1,5 +1,6 @@
 import React from 'react';
 import TaskCard from '../../taskCard/TaskCard';
+import ColumnHeader from './columnHeader/ColumnHeader';
 
 const COLUMNS = [
   { key: 'todo',       label: 'To Do',       dotClass: 'todo' },
@@ -14,13 +15,7 @@ export default function BoardColumns({ tasks, flashIds, onEdit, onDelete }) {
         const colTasks = tasks.filter(t => t.status === col.key);
         return (
           <div key={col.key} className="column" data-status={col.key}>
-            <div className="column-header">
-              <span className="col-label">
-                <span className={`col-dot ${col.dotClass}`} />
-                {col.label}
-              </span>
-              <span className="col-count">{colTasks.length}</span>
-            </div>
+            <ColumnHeader label={col.label} dotClass={col.dotClass} count={colTasks.length} />
             <div className="column-body">
               {colTasks.length === 0
                 ? <div className="empty-col"><span>○</span>No tasks yet</div>
