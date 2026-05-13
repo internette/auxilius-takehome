@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
+import Toasts from './toasts/Toasts';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
@@ -23,17 +24,6 @@ function useLocalStorage(key, init) {
 }
 
 let toastId = 0;
-
-// ── Toast ────────────────────────────────────────────────────────────────────
-function Toasts({ toasts }) {
-  return (
-    <div className="toast-container">
-      {toasts.map(t => (
-        <div key={t.id} className={`toast toast-${t.type}`}>{t.msg}</div>
-      ))}
-    </div>
-  );
-}
 
 // ── Login ────────────────────────────────────────────────────────────────────
 function LoginPage({ onLogin }) {
