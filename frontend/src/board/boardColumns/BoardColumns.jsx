@@ -1,5 +1,5 @@
 import React from 'react';
-import './BoardColumns.scss';
+import './BoardColumns.module.scss';
 import ColumnHeader from './columnHeader/ColumnHeader';
 import ColumnBody from './columnBody/ColumnBody';
 
