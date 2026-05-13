@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
 import Toasts from '../toasts/Toasts';
 import TaskModal from '../taskModal/TaskModal';
+import Header from './header/Header';
 import BoardToolbar from './boardToolbar/BoardToolbar';
 import BoardColumns from './boardColumns/BoardColumns';
 
@@ -115,16 +116,7 @@ export default function Board({ username, onLogout }) {
 
   return (
     <>
-      <header>
-        <div className="header-brand">
-          <h1>Kan<em>ban</em></h1>
-          <div className={`live-dot${connected ? '' : ' offline'}`} title={connected ? 'Live' : 'Offline'} />
-        </div>
-        <div className="header-right">
-          <span className="header-user">signed in as <strong>@{username}</strong></span>
-          <button className="btn-logout" onClick={onLogout}>Sign out</button>
-        </div>
-      </header>
+      <Header username={username} connected={connected} onLogout={onLogout} />
 
       <div className="board-wrap">
         <BoardToolbar
