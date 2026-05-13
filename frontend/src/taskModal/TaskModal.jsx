@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styles from './TaskModal.module.scss';
 
 export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
   const isNew = !task;
@@ -16,32 +17,32 @@ export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
   };
 
   return (
-    <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal">
-        <h2>{isNew ? <><em>New</em> Task</> : <>Edit <em>Task</em></>}</h2>
+    <div className={styles.overlay} onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className={styles.modal}>
+        <h2 className={styles.title}>{isNew ? <><em className={styles.titleEm}>New</em> Task</> : <>Edit <em className={styles.titleEm}>Task</em></>}</h2>
 
-        <div className="modal-field">
-          <label>Title *</label>
-          <input autoFocus value={title} onChange={e => setTitle(e.target.value)} placeholder="What needs to be done?" maxLength={120} />
+        <div className={styles.field}>
+          <label className={styles.label}>Title *</label>
+          <input className={styles.input} autoFocus value={title} onChange={e => setTitle(e.target.value)} placeholder="What needs to be done?" maxLength={120} />
         </div>
 
-        <div className="modal-field">
-          <label>Description</label>
-          <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Optional details…" maxLength={600} />
+        <div className={styles.field}>
+          <label className={styles.label}>Description</label>
+          <textarea className={`${styles.input} ${styles.textarea}`} value={desc} onChange={e => setDesc(e.target.value)} placeholder="Optional details…" maxLength={600} />
         </div>
 
-        <div className="modal-field">
-          <label>Status</label>
-          <select value={status} onChange={e => setStatus(e.target.value)}>
+        <div className={styles.field}>
+          <label className={styles.label}>Status</label>
+          <select className={styles.input} value={status} onChange={e => setStatus(e.target.value)}>
             <option value="todo">To Do</option>
             <option value="inprogress">In Progress</option>
             <option value="done">Done</option>
           </select>
         </div>
 
-        <div className="modal-actions">
-          <button className="btn-cancel" onClick={onClose}>Cancel</button>
-          <button className="btn-save" onClick={handleSave} disabled={!title.trim() || saving}>
+        <div className={styles.actions}>
+          <button className={styles.cancelButton} onClick={onClose}>Cancel</button>
+          <button className={styles.saveButton} onClick={handleSave} disabled={!title.trim() || saving}>
             {saving ? 'Saving…' : isNew ? 'Create task' : 'Save changes'}
           </button>
         </div>

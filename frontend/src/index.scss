@@ -208,69 +208,6 @@ header {
 }
 
 /* ── Modal ── */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(26,18,8,.45);
-  backdrop-filter: blur(3px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 200; padding: 1rem;
-  animation: fadeIn .15s ease;
-}
-@keyframes fadeIn { from{opacity:0} to{opacity:1} }
-
-.modal {
-  background: #fff;
-  border-radius: 12px;
-  width: 100%; max-width: 480px;
-  padding: 2rem;
-  box-shadow: 0 20px 60px rgba(26,18,8,.2);
-  animation: slideUp .2s ease;
-}
-@keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
-
-.modal h2 {
-  font-family: var(--serif); font-size: 1.6rem;
-  margin-bottom: 1.5rem;
-}
-.modal h2 em { color: var(--rust); font-style: italic; }
-
-.modal-field { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
-.modal-field label { font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #7a6e5f; }
-.modal-field input,
-.modal-field textarea,
-.modal-field select {
-  width: 100%; padding: .7rem .9rem;
-  border: 1.5px solid var(--mist);
-  border-radius: var(--radius);
-  font-family: var(--sans); font-size: .875rem;
-  color: var(--ink); background: var(--cream);
-  outline: none;
-  transition: border-color var(--transition);
-}
-.modal-field input:focus,
-.modal-field textarea:focus,
-.modal-field select:focus { border-color: var(--rust); }
-.modal-field textarea { resize: vertical; min-height: 90px; }
-
-.modal-actions { display: flex; gap: .6rem; margin-top: 1.5rem; justify-content: flex-end; }
-.btn-cancel {
-  padding: .65rem 1.2rem;
-  border: 1.5px solid var(--mist); border-radius: var(--radius);
-  background: transparent; font-family: var(--sans); font-size: .875rem;
-  cursor: pointer; color: #7a6e5f;
-  transition: all var(--transition);
-}
-.btn-cancel:hover { border-color: var(--ink); color: var(--ink); }
-.btn-save {
-  padding: .65rem 1.4rem;
-  background: var(--ink); color: var(--cream);
-  border: none; border-radius: var(--radius);
-  font-family: var(--sans); font-size: .875rem; font-weight: 600;
-  cursor: pointer;
-  transition: background var(--transition);
-}
-.btn-save:hover { background: var(--rust); }
-.btn-save:disabled { background: #ccc; cursor: not-allowed; }
 
 /* ── Status chips ── */
 .status-chip {
