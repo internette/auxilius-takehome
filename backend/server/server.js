@@ -3,7 +3,10 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import pg from 'pg';
-import registerTaskRoutes from './tasks.js';
+import getTasks from './tasks/getTasks.js';
+import addTask from './tasks/addTask.js';
+import updateTask from './tasks/updateTask.js';
+import deleteTask from './tasks/deleteTask.js';
 
 const { Pool } = pg;
 
@@ -26,7 +29,13 @@ app.use(express.json());
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
 // ── Tasks API ─────────────────────────────────────────────────────────────────
-registerTaskRoutes(app, pool, io);
+app.get('/tasks', async (_req, res) => getTasks(_req, res, pool));
+
+app.post('/tasks', async (req, res) => addTask(req, res, pool, io));
+
+app.patch('/tasks/:id', async (req, res) => updateTask(req, res, pool, io));
+
+app.delete('/tasks/:id', async (req, res) => deleteTask(req, res, pool, io));
 
 // ── Socket.IO ─────────────────────────────────────────────────────────────────
 io.on('connection', (socket) => {
