@@ -82,25 +82,3 @@
   margin-top: 1.5rem;
   justify-content: flex-end;
 }
-
-.saveButton {
-  padding: .65rem 1.4rem;
-  background: var(--ink);
-  color: var(--cream);
-  border: none;
-  border-radius: var(--radius);
-  font-family: var(--sans);
-  font-size: .875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background var(--transition);
-}
-
-.saveButton:hover {
-  background: var(--rust);
-}
-
-.saveButton:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}

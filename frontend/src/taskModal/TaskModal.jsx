@@ -48,9 +48,13 @@ export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
             text="Cancel"
             onClickHandler={onClose}
           />
-          <button className={styles.saveButton} onClick={handleSave} disabled={!title.trim() || saving}>
-            {saving ? 'Saving…' : isNew ? 'Create task' : 'Save changes'}
-          </button>
+          <Button
+            type="primary"
+            title={isNew ? 'Create task' : 'Save changes'}
+            text={saving ? 'Saving…' : isNew ? 'Create task' : 'Save changes'}
+            onClickHandler={handleSave}
+            disabled={!title.trim() || saving}
+          />
         </div>
       </div>
     </div>
