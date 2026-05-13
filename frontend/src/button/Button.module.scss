@@ -10,33 +10,29 @@
   font-weight: 600;
   cursor: pointer;
   transition: background var(--transition), transform var(--transition), color var(--transition), border-color var(--transition);
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
 .primary {
   background: var(--rust);
   color: #fff;
-}
-
-.primary:hover {
-  background: #a83515;
-}
-
-.primary:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+  &:hover {
+    background: #a83515;
+  }
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
 }
 
 .secondary {
   background: transparent;
   color: #7a6e5f;
   border: 1.5px solid var(--mist);
-}
-
-.secondary:hover {
-  border-color: var(--rust);
-  color: var(--rust);
-}
-
-.button:active {
-  transform: scale(0.98);
+  &:hover {
+    border-color: var(--rust);
+    color: var(--rust);
+  }
 }
