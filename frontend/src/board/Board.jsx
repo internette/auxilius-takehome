@@ -100,6 +100,13 @@ export default function Board({ username, onLogout }) {
     setTasks(prev => prev.map(t => t.id === id ? task : t));
   };
 
+  const moveTask = async (id, status) => {
+    const task = tasks.find(t => t.id === id);
+    if (!task || task.status === status) return;
+    setTasks(prev => prev.map(t => t.id === id ? { ...t, status } : t));
+    await updateTask(id, { status });
+  };
+
   const deleteTask = async id => {
     const task = tasks.find(t => t.id === id);
     setTasks(prev => prev.filter(t => t.id !== id));
@@ -131,6 +138,7 @@ export default function Board({ username, onLogout }) {
             flashIds={flashIds}
             onEdit={t => setModal({ task: t, defaultStatus: t.status })}
             onDelete={deleteTask}
+            onMove={moveTask}
         />
       </div>
 

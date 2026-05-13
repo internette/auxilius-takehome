@@ -9,7 +9,7 @@ const COLUMNS = [
   { key: 'done',       label: 'Done',         dotClass: 'done' },
 ];
 
-export default function BoardColumns({ tasks, flashIds, onEdit, onDelete }) {
+export default function BoardColumns({ tasks, flashIds, onEdit, onDelete, onMove }) {
   return (
     <div className={styles['board-columns']}>
       {COLUMNS.map(col => {
@@ -18,10 +18,12 @@ export default function BoardColumns({ tasks, flashIds, onEdit, onDelete }) {
           <div key={col.key} className={styles.column} data-status={col.key}>
             <ColumnHeader label={col.label} dotClass={col.dotClass} count={colTasks.length} />
             <ColumnBody
+              status={col.key}
               tasks={colTasks}
               flashIds={flashIds}
               onEdit={onEdit}
               onDelete={onDelete}
+              onMove={onMove}
             />
           </div>
         );

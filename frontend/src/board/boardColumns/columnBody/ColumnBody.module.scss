@@ -22,3 +22,8 @@
         font-size: 1.5rem;
     }
 }
+
+.drag-over {
+  background: rgba(255, 255, 255, 0.9);
+  outline: 2px dashed var(--rust);
+}
