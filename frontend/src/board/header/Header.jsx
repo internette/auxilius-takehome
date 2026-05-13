@@ -5,9 +5,7 @@ export default function Header({ username, connected, onLogout }) {
   return (
     <header>
       <div className={styles['header-brand']}>
-        <h1>
-          Kan<em>ban</em>
-        </h1>
+        <h1>🪶To-Do</h1>
         <div
           className={[styles['live-dot'], !connected && styles.offline].filter(Boolean).join(' ')}
           title={connected ? 'Live' : 'Offline'}
