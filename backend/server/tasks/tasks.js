@@ -1,28 +1,13 @@
 import express from 'express';
 import getTasks from './getTasks.js';
+import addTask from './addTask.js';
 
 export default function registerTaskRoutes(app, pool, io) {
   const router = express.Router();
 
   router.get('/', (req, res) => getTasks(req, res, pool));
 
-  router.post('/', async (req, res) => {
-    const { title, description = '', status = 'todo', author } = req.body;
-    if (!title?.trim()) return res.status(400).json({ error: 'title is required' });
-    if (!author?.trim()) return res.status(400).json({ error: 'author is required' });
-
-    try {
-      const { rows } = await pool.query(
-        'INSERT INTO tasks (title, description, status, author) VALUES ($1,$2,$3,$4) RETURNING *',
-        [title.trim(), description.trim(), status, author.trim()]
-      );
-      const task = rows[0];
-      io.emit('task:created', task);
-      res.status(201).json(task);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
+  router.post('/', (req, res) => addTask(req, res, pool, io));
 
   router.patch('/:id', async (req, res) => {
     const { id } = req.params;
