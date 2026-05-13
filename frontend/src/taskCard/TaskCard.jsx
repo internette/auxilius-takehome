@@ -19,8 +19,8 @@ export default function TaskCard({ task, onEdit, onDelete, flash }) {
       <div className={styles.taskMeta}>
         <span className={styles.taskAuthor}>@{task.author}</span>
         <div className={styles.taskActions} onClick={e => e.stopPropagation()}>
-          <Button type="secondary" text="Edit" onClickHandler={() => onEdit(task)} />
-          <Button type="secondary" text="Delete" onClickHandler={() => onDelete(task.id)} />
+          <Button type="secondary" text="✏️" title="Edit" onClickHandler={() => onEdit(task)} />
+          <Button type="secondary" text="🗑️" title="Delete" onClickHandler={() => onDelete(task.id)} />
         </div>
       </div>
     </div>
