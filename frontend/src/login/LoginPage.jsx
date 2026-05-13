@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import Button from '../button/Button';
+import Field from '../field/Field';
+import styles from './Login.module.scss';
 
 export default function LoginPage({ onLogin }) {
   const [name, setName] = useState('');
@@ -13,23 +16,14 @@ export default function LoginPage({ onLogin }) {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
+    <div className={styles.loginPage}>
+      <div className={styles.loginCard}>
         <h1>Kan<em>ban</em></h1>
         <p>Real-time collaborative task board. Enter a username to get started.</p>
         <form onSubmit={submit}>
-          <div className="field">
-            <label>Username</label>
-            <input
-              autoFocus
-              value={name}
-              onChange={e => { setName(e.target.value); setErr(''); }}
-              placeholder="e.g. alice"
-              maxLength={32}
-            />
-            {err && <span className="error-msg">{err}</span>}
-          </div>
-          <button className="btn-primary" type="submit">Enter board →</button>
+          <Field label="Username" inputType="input" autoFocus value={name} onChange={e => { setName(e.target.value); setErr(''); }} placeholder="e.g. alice" maxLength={32} />
+          {err && <span className={styles.errorMsg}>{err}</span>}
+          <Button type="primary" htmlType="submit" text="Enter board →" />
         </form>
       </div>
     </div>
