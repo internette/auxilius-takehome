@@ -1,0 +1,13 @@
+.board-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.board-title {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: #7a6e5f;
+}
