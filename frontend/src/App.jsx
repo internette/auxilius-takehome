@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import Toasts from './toasts/Toasts';
 import LoginPage from './login/LoginPage';
 import TaskModal from './taskModal/TaskModal';
+import TaskCard from './taskCard/TaskCard';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
@@ -26,23 +27,6 @@ function useLocalStorage(key, init) {
 }
 
 let toastId = 0;
-
-// ── Task Card ────────────────────────────────────────────────────────────────
-function TaskCard({ task, onEdit, onDelete, flash }) {
-  return (
-    <div className={`task-card${flash ? ' flash' : ''}`} onClick={() => onEdit(task)}>
-      <div className="task-title">{task.title}</div>
-      {task.description && <div className="task-desc">{task.description}</div>}
-      <div className="task-meta">
-        <span className="task-author">@{task.author}</span>
-        <div className="task-actions" onClick={e => e.stopPropagation()}>
-          <button className="action-btn" title="Edit" onClick={() => onEdit(task)}>✏️</button>
-          <button className="action-btn delete" title="Delete" onClick={() => onDelete(task.id)}>🗑</button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Board ─────────────────────────────────────────────────────────────────────
 function Board({ username, onLogout }) {
