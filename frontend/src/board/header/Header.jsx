@@ -1,3 +1,4 @@
+import Button from '../../button/Button';
 import './Header.scss';
 
 export default function Header({ username, connected, onLogout }) {
@@ -9,7 +10,7 @@ export default function Header({ username, connected, onLogout }) {
       </div>
       <div className="header-right">
         <span className="header-user">signed in as <strong>@{username}</strong></span>
-        <button className="btn-logout" onClick={onLogout}>Sign out</button>
+        <Button type="secondary" text="Sign out" onClickHandler={onLogout} />
       </div>
     </header>
   );

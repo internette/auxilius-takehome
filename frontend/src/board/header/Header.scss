@@ -41,14 +41,3 @@ header {
     color: var(--ink);
 }
 }
-
-.btn-logout {
-  padding: .4rem .9rem;
-  border: 1.5px solid var(--mist);
-  border-radius: var(--radius);
-  background: transparent;
-  font-family: var(--sans); font-size: .8rem; font-weight: 600;
-  cursor: pointer; color: #7a6e5f;
-  transition: all var(--transition);
-}
-.btn-logout:hover { border-color: var(--rust); color: var(--rust); }
