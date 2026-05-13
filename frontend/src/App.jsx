@@ -1,0 +1,318 @@
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { io } from 'socket.io-client';
+
+const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
+const COLUMNS = [
+  { key: 'todo',       label: 'To Do',       dotClass: 'todo' },
+  { key: 'inprogress', label: 'In Progress',  dotClass: 'inprogress' },
+  { key: 'done',       label: 'Done',         dotClass: 'done' },
+];
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function useLocalStorage(key, init) {
+  const [val, setVal] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(key)) ?? init; }
+    catch { return init; }
+  });
+  const set = useCallback(v => {
+    setVal(v);
+    localStorage.setItem(key, JSON.stringify(v));
+  }, [key]);
+  return [val, set];
+}
+
+let toastId = 0;
+
+// ── Toast ────────────────────────────────────────────────────────────────────
+function Toasts({ toasts }) {
+  return (
+    <div className="toast-container">
+      {toasts.map(t => (
+        <div key={t.id} className={`toast toast-${t.type}`}>{t.msg}</div>
+      ))}
+    </div>
+  );
+}
+
+// ── Login ────────────────────────────────────────────────────────────────────
+function LoginPage({ onLogin }) {
+  const [name, setName] = useState('');
+  const [err, setErr] = useState('');
+
+  const submit = e => {
+    e.preventDefault();
+    const trimmed = name.trim();
+    if (!trimmed) { setErr('Please enter a username.'); return; }
+    if (trimmed.length < 2) { setErr('Username must be at least 2 characters.'); return; }
+    onLogin(trimmed);
+  };
+
+  return (
+    <div className="login-page">
+      <div className="login-card">
+        <h1>Kan<em>ban</em></h1>
+        <p>Real-time collaborative task board. Enter a username to get started.</p>
+        <form onSubmit={submit}>
+          <div className="field">
+            <label>Username</label>
+            <input
+              autoFocus
+              value={name}
+              onChange={e => { setName(e.target.value); setErr(''); }}
+              placeholder="e.g. alice"
+              maxLength={32}
+            />
+            {err && <span className="error-msg">{err}</span>}
+          </div>
+          <button className="btn-primary" type="submit">Enter board →</button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ── Task Modal ───────────────────────────────────────────────────────────────
+function TaskModal({ task, onClose, onSave, defaultStatus }) {
+  const isNew = !task;
+  const [title, setTitle]       = useState(task?.title || '');
+  const [desc, setDesc]         = useState(task?.description || '');
+  const [status, setStatus]     = useState(task?.status || defaultStatus || 'todo');
+  const [saving, setSaving]     = useState(false);
+
+  const handleSave = async () => {
+    if (!title.trim()) return;
+    setSaving(true);
+    await onSave({ title, description: desc, status });
+    setSaving(false);
+    onClose();
+  };
+
+  return (
+    <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal">
+        <h2>{isNew ? <><em>New</em> Task</> : <>Edit <em>Task</em></>}</h2>
+
+        <div className="modal-field">
+          <label>Title *</label>
+          <input autoFocus value={title} onChange={e => setTitle(e.target.value)} placeholder="What needs to be done?" maxLength={120} />
+        </div>
+
+        <div className="modal-field">
+          <label>Description</label>
+          <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Optional details…" maxLength={600} />
+        </div>
+
+        <div className="modal-field">
+          <label>Status</label>
+          <select value={status} onChange={e => setStatus(e.target.value)}>
+            <option value="todo">To Do</option>
+            <option value="inprogress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+
+        <div className="modal-actions">
+          <button className="btn-cancel" onClick={onClose}>Cancel</button>
+          <button className="btn-save" onClick={handleSave} disabled={!title.trim() || saving}>
+            {saving ? 'Saving…' : isNew ? 'Create task' : 'Save changes'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Task Card ────────────────────────────────────────────────────────────────
+function TaskCard({ task, onEdit, onDelete, flash }) {
+  return (
+    <div className={`task-card${flash ? ' flash' : ''}`} onClick={() => onEdit(task)}>
+      <div className="task-title">{task.title}</div>
+      {task.description && <div className="task-desc">{task.description}</div>}
+      <div className="task-meta">
+        <span className="task-author">@{task.author}</span>
+        <div className="task-actions" onClick={e => e.stopPropagation()}>
+          <button className="action-btn" title="Edit" onClick={() => onEdit(task)}>✏️</button>
+          <button className="action-btn delete" title="Delete" onClick={() => onDelete(task.id)}>🗑</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Board ─────────────────────────────────────────────────────────────────────
+function Board({ username, onLogout }) {
+  const [tasks, setTasks]       = useState([]);
+  const [modal, setModal]       = useState(null); // null | { task, defaultStatus }
+  const [connected, setConnected] = useState(false);
+  const [toasts, setToasts]     = useState([]);
+  const [flashIds, setFlashIds] = useState(new Set());
+  const socketRef               = useRef(null);
+
+  const addToast = useCallback((msg, type = 'update') => {
+    const id = ++toastId;
+    setToasts(prev => [...prev, { id, msg, type }]);
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000);
+  }, []);
+
+  const flashCard = useCallback(id => {
+    setFlashIds(prev => new Set([...prev, id]));
+    setTimeout(() => setFlashIds(prev => { const s = new Set(prev); s.delete(id); return s; }), 700);
+  }, []);
+
+  // Load tasks
+  useEffect(() => {
+    fetch(`${API}/tasks`)
+      .then(r => r.json())
+      .then(setTasks)
+      .catch(() => addToast('Failed to load tasks', 'delete'));
+  }, []);
+
+  // Socket.IO
+  useEffect(() => {
+    const socket = io(API, { transports: ['websocket', 'polling'] });
+    socketRef.current = socket;
+
+    socket.on('connect',    () => setConnected(true));
+    socket.on('disconnect', () => setConnected(false));
+
+    socket.on('task:created', task => {
+      if (task.author === username) return; // already applied optimistically
+      setTasks(prev => [...prev, task]);
+      addToast(`${task.author} created "${task.title}"`, 'create');
+      setTimeout(() => flashCard(task.id), 50);
+    });
+
+    socket.on('task:updated', task => {
+      if (task.author === username) {
+        setTasks(prev => prev.map(t => t.id === task.id ? task : t));
+        return;
+      }
+      setTasks(prev => prev.map(t => t.id === task.id ? task : t));
+      flashCard(task.id);
+      addToast(`${task.author} updated "${task.title}"`, 'update');
+    });
+
+    socket.on('task:deleted', ({ id }) => {
+      setTasks(prev => {
+        const t = prev.find(x => x.id === id);
+        if (t) addToast(`Task "${t.title}" was deleted`, 'delete');
+        return prev.filter(x => x.id !== id);
+      });
+    });
+
+    return () => socket.disconnect();
+  }, [username]);
+
+  const createTask = async ({ title, description, status }) => {
+    const res = await fetch(`${API}/tasks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, description, status, author: username })
+    });
+    const task = await res.json();
+    setTasks(prev => [...prev, task]);
+    addToast(`Task "${task.title}" created`, 'create');
+    setTimeout(() => flashCard(task.id), 50);
+  };
+
+  const updateTask = async (id, fields) => {
+    const res = await fetch(`${API}/tasks/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...fields, author: username })
+    });
+    const task = await res.json();
+    setTasks(prev => prev.map(t => t.id === id ? task : t));
+  };
+
+  const deleteTask = async id => {
+    const task = tasks.find(t => t.id === id);
+    setTasks(prev => prev.filter(t => t.id !== id));
+    await fetch(`${API}/tasks/${id}`, { method: 'DELETE' });
+    addToast(`Deleted "${task?.title}"`, 'delete');
+  };
+
+  const handleSave = async ({ title, description, status }) => {
+    if (modal.task) {
+      await updateTask(modal.task.id, { title, description, status });
+    } else {
+      await createTask({ title, description, status });
+    }
+  };
+
+  return (
+    <>
+      <header>
+        <div className="header-brand">
+          <h1>Kan<em>ban</em></h1>
+          <div className={`live-dot${connected ? '' : ' offline'}`} title={connected ? 'Live' : 'Offline'} />
+        </div>
+        <div className="header-right">
+          <span className="header-user">signed in as <strong>@{username}</strong></span>
+          <button className="btn-logout" onClick={onLogout}>Sign out</button>
+        </div>
+      </header>
+
+      <div className="board-wrap">
+        <div className="board-toolbar">
+          <span className="board-title">{tasks.length} task{tasks.length !== 1 ? 's' : ''} across {COLUMNS.length} columns</span>
+          <button className="btn-new-task" onClick={() => setModal({ task: null, defaultStatus: 'todo' })}>
+            + New task
+          </button>
+        </div>
+
+        <div className="board-columns">
+          {COLUMNS.map(col => {
+            const colTasks = tasks.filter(t => t.status === col.key);
+            return (
+              <div key={col.key} className="column" data-status={col.key}>
+                <div className="column-header">
+                  <span className="col-label">
+                    <span className={`col-dot ${col.dotClass}`} />
+                    {col.label}
+                  </span>
+                  <span className="col-count">{colTasks.length}</span>
+                </div>
+                <div className="column-body">
+                  {colTasks.length === 0
+                    ? <div className="empty-col"><span>○</span>No tasks yet</div>
+                    : colTasks.map(task => (
+                        <TaskCard
+                          key={task.id}
+                          task={task}
+                          flash={flashIds.has(task.id)}
+                          onEdit={t => setModal({ task: t, defaultStatus: t.status })}
+                          onDelete={deleteTask}
+                        />
+                      ))
+                  }
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {modal && (
+        <TaskModal
+          task={modal.task}
+          defaultStatus={modal.defaultStatus}
+          onClose={() => setModal(null)}
+          onSave={handleSave}
+        />
+      )}
+
+      <Toasts toasts={toasts} />
+    </>
+  );
+}
+
+// ── App root ─────────────────────────────────────────────────────────────────
+export default function App() {
+  const [username, setUsername] = useLocalStorage('kanban_user', null);
+
+  return username
+    ? <Board username={username} onLogout={() => setUsername(null)} />
+    : <LoginPage onLogin={setUsername} />;
+}
