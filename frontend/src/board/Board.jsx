@@ -160,6 +160,7 @@ export default function Board({ username, onLogout }) {
 
       {modal && (
         <TaskModal
+          isOpen={!!modal}
           task={modal.task}
           defaultStatus={modal.defaultStatus}
           onClose={() => setModal(null)}
@@ -169,6 +170,7 @@ export default function Board({ username, onLogout }) {
 
       {deleteConfirm && (
         <DeleteConfirmModal
+          isOpen={!!deleteConfirm}
           title={deleteConfirm.title}
           onCancel={cancelDeleteTask}
           onConfirm={confirmDeleteTask}

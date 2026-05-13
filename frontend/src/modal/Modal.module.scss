@@ -1,0 +1,42 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,18,8,.45);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+  animation: fadeIn .15s ease;
+}
+
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(26,18,8,.2);
+  animation: slideUp .2s ease;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+
+.title {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.titleEm {
+  color: var(--rust);
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .75rem;
+}
