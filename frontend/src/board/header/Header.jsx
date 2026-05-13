@@ -1,3 +1,5 @@
+import './Header.scss';
+
 export default function Header({ username, connected, onLogout }) {
   return (
     <header>
