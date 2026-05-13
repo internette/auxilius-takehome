@@ -16,13 +16,13 @@ export default function ColumnBody({ status, tasks, flashIds, onEdit, onDelete, 
 
   return (
     <div
-      className={`${styles['column-body']} ${dragOver ? styles['drag-over'] : ''}`}
+      className={`${styles.columnBody} ${dragOver ? styles.dragOver : ''}`}
       onDragOver={e => { e.preventDefault(); setDragOver(true); }}
       onDragLeave={() => setDragOver(false)}
       onDrop={handleDrop}
     >
       {tasks.length === 0 ? (
-        <div className={styles['empty-col']}><span>○</span>No tasks yet</div>
+        <div className={styles.emptyCol}><span>○</span>No tasks yet</div>
       ) : (
         tasks.map(task => (
           <TaskCard

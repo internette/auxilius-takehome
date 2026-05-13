@@ -11,7 +11,7 @@ const COLUMNS = [
 
 export default function BoardColumns({ tasks, flashIds, onEdit, onDelete, onMove }) {
   return (
-    <div className={styles['board-columns']}>
+    <div className={styles.boardColumns}>
       {COLUMNS.map(col => {
         const colTasks = tasks.filter(t => t.status === col.key);
         return (
