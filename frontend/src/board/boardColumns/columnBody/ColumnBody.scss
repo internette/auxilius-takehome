@@ -1,0 +1,25 @@
+.column-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.empty-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  gap: .5rem;
+  color: #bbb;
+  text-align: center;
+  font-size: .8rem;
+  flex: 1;
+}
+
+.empty-col span {
+  font-size: 1.5rem;
+}

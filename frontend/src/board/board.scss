@@ -28,12 +28,6 @@
 .column[data-status="inprogress"] { background: var(--col-inprogress); }
 .column[data-status="done"] { background: var(--col-done); }
 
-.column-body {
-  flex: 1; overflow-y: auto;
-  padding: .75rem;
-  display: flex; flex-direction: column; gap: .6rem;
-}
-
 /* ── Status chips ── */
 .status-chip {
   display: inline-flex; align-items: center; gap: .35rem;
