@@ -1,5 +1,5 @@
 import React from 'react';
-import './BoardColumns.module.scss';
+import styles from './BoardColumns.module.scss';
 import ColumnHeader from './columnHeader/ColumnHeader';
 import ColumnBody from './columnBody/ColumnBody';
 
@@ -11,11 +11,11 @@ const COLUMNS = [
 
 export default function BoardColumns({ tasks, flashIds, onEdit, onDelete }) {
   return (
-    <div className="board-columns">
+    <div className={styles['board-columns']}>
       {COLUMNS.map(col => {
         const colTasks = tasks.filter(t => t.status === col.key);
         return (
-          <div key={col.key} className="column" data-status={col.key}>
+          <div key={col.key} className={styles.column} data-status={col.key}>
             <ColumnHeader label={col.label} dotClass={col.dotClass} count={colTasks.length} />
             <ColumnBody
               tasks={colTasks}
