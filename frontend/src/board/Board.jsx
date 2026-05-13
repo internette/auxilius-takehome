@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
 import Toasts from '../toasts/Toasts';
 import TaskModal from '../taskModal/TaskModal';
+import BoardToolbar from './boardToolbar/BoardToolbar';
 import BoardColumns from './boardColumns/BoardColumns';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
@@ -126,12 +127,11 @@ export default function Board({ username, onLogout }) {
       </header>
 
       <div className="board-wrap">
-        <div className="board-toolbar">
-          <span className="board-title">{tasks.length} task{tasks.length !== 1 ? 's' : ''} across {COLUMNS.length} columns</span>
-          <button className="btn-new-task" onClick={() => setModal({ task: null, defaultStatus: 'todo' })}>
-            + New task
-          </button>
-        </div>
+        <BoardToolbar
+          tasksCount={tasks.length}
+          columnsCount={COLUMNS.length}
+          onNewTask={() => setModal({ task: null, defaultStatus: 'todo' })}
+        />
 
         <BoardColumns
             tasks={tasks}
