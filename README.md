@@ -8,12 +8,10 @@ Real-time collaborative task board built with React, Express, PostgreSQL, and So
 # 1. Clone and enter the project
 cd kanban
 
-# 2. Copy environment file
-cp .env.example .env
-
-# 3. Start everything
+# 2. Start everything
 docker compose up --build
 ```
+* Note: Before you can build, you need to create a .env file and get the values from a site admin
 
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:4000
