@@ -1,16 +1,19 @@
 .input {
-  width: 100%;
-  padding: .7rem .9rem;
-  border: 1.5px solid var(--mist);
-  border-radius: var(--radius);
-  font-family: var(--sans);
-  font-size: .875rem;
-  color: var(--ink);
-  background: var(--cream);
-  outline: none;
-  transition: border-color var(--transition);
+    width: 100%;
+    padding: .7rem .9rem;
+    border: 1.5px solid var(--mist);
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: .875rem;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    transition: border-color var(--transition);
+    &:focus {
+        border-color: var(--rust);
+    }
 }
 
 .input:focus {
-  border-color: var(--rust);
+    border-color: var(--rust);
 }
