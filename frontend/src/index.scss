@@ -5,10 +5,3 @@
 html, body { height: 100%; background: var(--cream); color: var(--ink); font-family: var(--sans); }
 
 #root { min-height: 100vh; display: flex; flex-direction: column; }
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 3px; }
-
-/* ── Header ── */
