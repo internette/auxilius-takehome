@@ -13,12 +13,12 @@
 }
 
 .primary {
-  background: var(--ink);
-  color: var(--cream);
+  background: var(--rust);
+  color: #fff;
 }
 
 .primary:hover {
-  background: var(--rust);
+  background: #a83515;
 }
 
 .primary:disabled {

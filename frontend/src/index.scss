@@ -167,18 +167,6 @@ header {
 
 .board-title { font-family: var(--serif); font-size: 1.1rem; color: #7a6e5f; }
 
-.btn-new-task {
-  display: flex; align-items: center; gap: .5rem;
-  padding: .6rem 1.2rem;
-  background: var(--rust); color: #fff;
-  border: none; border-radius: var(--radius);
-  font-family: var(--sans); font-size: .875rem; font-weight: 600;
-  cursor: pointer;
-  transition: background var(--transition), transform var(--transition);
-}
-.btn-new-task:hover { background: #a83515; }
-.btn-new-task:active { transform: scale(.97); }
-
 /* ── Columns ── */
 .board-columns {
   display: grid;
