@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Button from '../Button';
 import styles from './TaskModal.module.scss';
 
 export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
@@ -41,7 +42,12 @@ export default function TaskModal({ task, onClose, onSave, defaultStatus }) {
         </div>
 
         <div className={styles.actions}>
-          <button className={styles.cancelButton} onClick={onClose}>Cancel</button>
+          <Button
+            type="secondary"
+            title="Cancel"
+            text="Cancel"
+            onClickHandler={onClose}
+          />
           <button className={styles.saveButton} onClick={handleSave} disabled={!title.trim() || saving}>
             {saving ? 'Saving…' : isNew ? 'Create task' : 'Save changes'}
           </button>

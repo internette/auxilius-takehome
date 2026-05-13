@@ -83,23 +83,6 @@
   justify-content: flex-end;
 }
 
-.cancelButton {
-  padding: .65rem 1.2rem;
-  border: 1.5px solid var(--mist);
-  border-radius: var(--radius);
-  background: transparent;
-  font-family: var(--sans);
-  font-size: .875rem;
-  cursor: pointer;
-  color: #7a6e5f;
-  transition: all var(--transition);
-}
-
-.cancelButton:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-
 .saveButton {
   padding: .65rem 1.4rem;
   background: var(--ink);
