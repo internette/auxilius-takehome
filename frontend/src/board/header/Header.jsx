@@ -1,15 +1,22 @@
 import Button from '../../button/Button';
-import './Header.scss';
+import styles from './Header.module.scss';
 
 export default function Header({ username, connected, onLogout }) {
   return (
     <header>
-      <div className="header-brand">
-        <h1>Kan<em>ban</em></h1>
-        <div className={`live-dot${connected ? '' : ' offline'}`} title={connected ? 'Live' : 'Offline'} />
+      <div className={styles['header-brand']}>
+        <h1>
+          Kan<em>ban</em>
+        </h1>
+        <div
+          className={[styles['live-dot'], !connected && styles.offline].filter(Boolean).join(' ')}
+          title={connected ? 'Live' : 'Offline'}
+        />
       </div>
-      <div className="header-right">
-        <span className="header-user">signed in as <strong>@{username}</strong></span>
+      <div className={styles['header-right']}>
+        <span className={styles['header-user']}>
+          signed in as <strong>@{username}</strong>
+        </span>
         <Button type="secondary" text="Sign out" onClickHandler={onLogout} />
       </div>
     </header>
