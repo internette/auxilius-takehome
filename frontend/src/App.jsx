@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
 import Toasts from './toasts/Toasts';
+import LoginPage from './login/LoginPage';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
@@ -24,43 +25,6 @@ function useLocalStorage(key, init) {
 }
 
 let toastId = 0;
-
-// ── Login ────────────────────────────────────────────────────────────────────
-function LoginPage({ onLogin }) {
-  const [name, setName] = useState('');
-  const [err, setErr] = useState('');
-
-  const submit = e => {
-    e.preventDefault();
-    const trimmed = name.trim();
-    if (!trimmed) { setErr('Please enter a username.'); return; }
-    if (trimmed.length < 2) { setErr('Username must be at least 2 characters.'); return; }
-    onLogin(trimmed);
-  };
-
-  return (
-    <div className="login-page">
-      <div className="login-card">
-        <h1>Kan<em>ban</em></h1>
-        <p>Real-time collaborative task board. Enter a username to get started.</p>
-        <form onSubmit={submit}>
-          <div className="field">
-            <label>Username</label>
-            <input
-              autoFocus
-              value={name}
-              onChange={e => { setName(e.target.value); setErr(''); }}
-              placeholder="e.g. alice"
-              maxLength={32}
-            />
-            {err && <span className="error-msg">{err}</span>}
-          </div>
-          <button className="btn-primary" type="submit">Enter board →</button>
-        </form>
-      </div>
-    </div>
-  );
-}
 
 // ── Task Modal ───────────────────────────────────────────────────────────────
 function TaskModal({ task, onClose, onSave, defaultStatus }) {
