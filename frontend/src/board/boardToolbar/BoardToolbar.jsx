@@ -1,5 +1,5 @@
 import Button from '../../button/Button';
-import './BoardToolbar.scss';
+import './BoardToolbar.module.scss';
 
 export default function BoardToolbar({ tasksCount, columnsCount, onNewTask }) {
   return (
